@@ -8,6 +8,7 @@ import './App.css';
  */
 interface IState {
   data: ServerRespond[],
+  showGraph: boolean,
 }
 
 /**
@@ -22,6 +23,7 @@ class App extends Component<{}, IState> {
       // data saves the server responds.
       // We use this state to parse data down to the child element (Graph) as element property
       data: [],
+      showGraph: false,
     };
   }
 
@@ -60,9 +62,9 @@ class App extends Component<{}, IState> {
             // to keep requesting the data every 100ms until the app is closed
             // or the server does not return anymore data.
             onClick={() => {this.getDataFromServer()}}>
-            Start Streaming Data
+            Stream Data
           </button>
-          <div className="Graph">
+          <div className="Graph"> 
             {this.renderGraph()}
           </div>
         </div>
