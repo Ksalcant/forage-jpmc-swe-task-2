@@ -53,7 +53,7 @@ class Graph extends Component<IProps, {}> {
       // Add more Perspective configurations here.
       elem.load(this.table);
       elem.setAttribute('view', 'y_line');
-        elem.setAttribute('row-pivots', '[:timestamp"]');
+        elem.setAttribute('row-pivots', '["timestamp"]');
           elem.setAttribute('columns', '["ratio", "lower_bound", "upper_bound", "trigger_alert"]');
             elem.setAttribute('aggregates', JSON.stringify({
               price_abc: 'avg',
