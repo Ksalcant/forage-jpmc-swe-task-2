@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table } from '@finos/perspective';
+import { Table, TableData } from '@finos/perspective';
 import { ServerRespond } from './DataStreamer';
 import './Graph.css';
+import { DataManipulator } from './DataManipulator';
 
 /**
  * Props declaration for <Graph />
@@ -53,9 +54,9 @@ class Graph extends Component<IProps, {}> {
       // Add more Perspective configurations here.
       elem.load(this.table);
       elem.setAttribute('view', 'y_line');
-        elem.setAttribute('row-pivots', '["timestamp"]');
-          elem.setAttribute('columns', '["ratio", "lower_bound", "upper_bound", "trigger_alert"]');
-            elem.setAttribute('aggregates', JSON.stringify({
+      elem.setAttribute('row-pivots', '["timestamp"]');
+      elem.setAttribute('columns', '["ratio", "lower_bound", "upper_bound", "trigger_alert"]');
+      elem.setAttribute('aggregates', JSON.stringify({
               price_abc: 'avg',
               price_def: 'avg',
               ratio: 'avg',
@@ -73,17 +74,12 @@ class Graph extends Component<IProps, {}> {
     if (this.table) {
       // As part of the task, you need to fix the way we update the data props to
       // avoid inserting duplicated entries into Perspective table again.
-      this.table.update(this.props.data.map((el: any) => {
-        // Format the data from ServerRespond to the schema
-        return {
-          stock: el.stock,
-          top_ask_price: el.top_ask && el.top_ask.price || 0,
-          top_bid_price: el.top_bid && el.top_bid.price || 0,
-          timestamp: el.timestamp,
-        };
-      }));
+      this.table.update([
+        DataManipulator.generateRow(this.props.data),
+      ] as unknown as TableData);
     }
   }
 }
+
 
 export default Graph;
